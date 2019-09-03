@@ -5,16 +5,14 @@ pipeline {
         VIRTUAL_ENV = "${env.WORKSPACE}/venv"
     }
   stages {
-    stage ('Install_Requirements') {
+    stage ('setup') {
             steps {
                 sh """
                     echo ${SHELL}
                     [ -d venv ] && rm -rf venv
-                    #virtualenv --python=python2.7 venv
                     python -m venv venv
-                    #. venv/bin/activate
                     export PATH=${VIRTUAL_ENV}/bin:${PATH}
-                    pip install --upgrade pip
+                    python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint pylama
                 """
             }
         }
@@ -32,7 +30,7 @@ pipeline {
             steps {
                 sh """
                     export PATH=${VIRTUAL_ENV}/bin:${PATH}
-                    python -m unittest discover -v
+                    tox
                 """
             }
         }
