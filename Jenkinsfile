@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'pip install . --user'
+        sh 'pip install . -U --user'
       }
     }
     stage('test') {
