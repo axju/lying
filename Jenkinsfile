@@ -3,18 +3,18 @@ pipeline {
   stages {
     stage('setup') {
       steps {
-        sh 'python -m venv venv'
-        sh 'source ./venv/bin/activate'
+        bash 'python -m venv venv'
+        bash 'source ./venv/bin/activate'
       }
     }
     stage('build') {
       steps {
-        sh 'pip install .'
+        bash 'pip install .'
       }
     }
     stage('test') {
       steps {
-        sh 'python -m unittest discover -v'
+        bash 'python -m unittest discover -v'
       }
     }
   }
