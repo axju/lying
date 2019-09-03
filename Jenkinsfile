@@ -1,9 +1,15 @@
 pipeline {
   agent { docker { image 'python:3.7.2' } }
   stages {
+    stage('setup') {
+      steps {
+        sh 'python -m venv venv'
+        sh 'source ./venv/bin/activate'
+      }
+    }
     stage('build') {
       steps {
-        sh 'pip install . -U --user'
+        sh 'pip install .'
       }
     }
     stage('test') {
