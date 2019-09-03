@@ -1,5 +1,5 @@
 pipeline {
-  agent { docker { image 'python' } }
+  agent none
   environment {
         projectName = 'ProjectTemplate'
         VIRTUAL_ENV = "${env.WORKSPACE}/venv"
