@@ -5,21 +5,6 @@ pipeline {
         VIRTUAL_ENV = "${env.WORKSPACE}/venv"
     }
   stages {
-    stage ('python:3.6') {
-      agent { docker { image 'python:3.6' } }
-        steps {
-          sh """
-            echo ${SHELL}
-            [ -d venv ] && rm -rf venv
-            python -m venv venv
-            export PATH=${VIRTUAL_ENV}/bin:${PATH}
-            python -m pip install --upgrade pip
-            pip install . e
-            python -m unittest discover -v
-        """
-        }
-    }
-
     stage ('python:3.7') {
       agent { docker { image 'python:3.7' } }
         steps {
@@ -28,7 +13,7 @@ pipeline {
             [ -d venv ] && rm -rf venv
             python -m venv venv
             export PATH=${VIRTUAL_ENV}/bin:${PATH}
-            python -m pip install --upgrade pip
+            python -m pip install --upgrade pip wheel setuptools
             pip install . e
             python -m unittest discover -v
         """
@@ -43,7 +28,7 @@ pipeline {
             [ -d venv ] && rm -rf venv
             python -m venv venv
             export PATH=${VIRTUAL_ENV}/bin:${PATH}
-            python -m pip install --upgrade pip
+            python -m pip install --upgrade pip wheel setuptools
             pip install . e
             python -m unittest discover -v
         """
