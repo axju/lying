@@ -13,7 +13,7 @@ pipeline {
             [ -d venv ] && rm -rf venv
             python -m venv venv
             export PATH=${VIRTUAL_ENV}/bin:${PATH}
-            python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint pylama
+            python -m pip install --upgrade pip
             pip install . e
             python -m unittest discover -v
         """
@@ -28,7 +28,7 @@ pipeline {
             [ -d venv ] && rm -rf venv
             python -m venv venv
             export PATH=${VIRTUAL_ENV}/bin:${PATH}
-            python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint pylama
+            python -m pip install --upgrade pip
             pip install . e
             python -m unittest discover -v
         """
@@ -43,7 +43,7 @@ pipeline {
             [ -d venv ] && rm -rf venv
             python -m venv venv
             export PATH=${VIRTUAL_ENV}/bin:${PATH}
-            python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint pylama
+            python -m pip install --upgrade pip
             pip install . e
             python -m unittest discover -v
         """
