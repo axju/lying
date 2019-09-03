@@ -1,21 +1,41 @@
 pipeline {
   agent { docker { image 'python:3.7.2' } }
+  environment {
+        projectName = 'ProjectTemplate'
+        VIRTUAL_ENV = "${env.WORKSPACE}/venv"
+    }
   stages {
-    stage('setup') {
-      steps {
-        bash 'python -m venv venv'
-        bash 'source ./venv/bin/activate'
-      }
-    }
-    stage('build') {
-      steps {
-        bash 'pip install .'
-      }
-    }
-    stage('test') {
-      steps {
-        bash 'python -m unittest discover -v'
-      }
-    }
+    stage ('Install_Requirements') {
+            steps {
+                sh """
+                    echo ${SHELL}
+                    [ -d venv ] && rm -rf venv
+                    #virtualenv --python=python2.7 venv
+                    python -m venv venv
+                    #. venv/bin/activate
+                    export PATH=${VIRTUAL_ENV}/bin:${PATH}
+                    pip install --upgrade pip
+                """
+            }
+        }
+
+    stage ('build') {
+            steps {
+                sh """
+                    export PATH=${VIRTUAL_ENV}/bin:${PATH}
+                    pip install . e
+                """
+            }
+        }
+
+    stage ('test') {
+            steps {
+                sh """
+                    export PATH=${VIRTUAL_ENV}/bin:${PATH}
+                    python -m unittest discover -v
+                """
+            }
+        }
+
   }
 }
