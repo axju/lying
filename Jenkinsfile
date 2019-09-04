@@ -9,6 +9,7 @@ pipeline {
                 }
             }
         }
+        
         stage('test') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
