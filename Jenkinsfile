@@ -5,7 +5,7 @@ pipeline {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh "pip install --user --upgrade pip setuptools wheel"
-                    sh "pip install . e"
+                    sh "pip install --user ."
                 }
             }
         }
