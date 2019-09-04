@@ -17,6 +17,9 @@ class TestTerminal(unittest.TestCase):
         result = '>>> cat hello.txt\nhello :)\n'
         self.run_cmds(cmds, result, prompt='>>> ')
 
+    def test_dummy(self):
+        self.assertEqual(1, 1)
+
     def test_title(self):
         cmds = [{'input': 'cat hello.txt', 'output': {'title': 'lying'}}]
         result = """>>> cat hello.txt
