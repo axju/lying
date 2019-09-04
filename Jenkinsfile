@@ -19,7 +19,6 @@ pipeline {
         """
         }
     }
-
     stage ('python:3.8') {
       agent { docker { image 'python:3.7' } }
         steps {
