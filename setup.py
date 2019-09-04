@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 
 setup(
     name='lying',
-    version='0.0.1a1',
+    version='0.0.1a2',
     description='run a fake terminal',
     long_description=README,
     url='https://github.com/axju/lying',
