@@ -8,111 +8,79 @@ from logging import getLogger
 from pyfiglet import Figlet, DEFAULT_FONT
 
 
+class BasicCommand():
+
+    def __init__(self, stdout):
+        self.stdout = stdout
+
+    def render(self):
+        pass
+
+
+class TextCommand(BasicCommand):
+
+    def render(self, **kwargs):
+        text = kwargs.get('text', 'ERROR')
+        self.stdout.write(text)
+
+
+class CmdCommand(BasicCommand):
+
+    def redner(self, **kwargs):
+        cmd = kwargs.get('cmd', 'pwd')
+        os.system(cmd)
+
+
+
 class Terminal():
     """docstring for Terminal."""
 
     DEFAULT_PROMPT = '>>> '
     DEFAULT_WIDTH = 130
 
-    def __init__(self, cmds, prompt=None, width=None,
-                 stdout=sys.stdout, wait=2, setup=True):
+    def __init__(self, prompt=None, width=None, stdout=sys.stdout, wait=2000):
         super(Terminal, self).__init__()
-        self.logger = getLogger('Terminal')
+        self.logger = getLogger(self.__class__.__name__)
         self.logger.debug('Create a Terminal object')
 
-        if not isinstance(cmds, list):
-            raise Exception('"cmds" must be a list!')
-
-        self.cmds = cmds
         self.prompt = prompt
         self.width = width
         self.stdout = stdout
         self.wait = wait
+        self.setup = []
+        self.cls = {
+            'txt': TextCommand(stdout=self.stdout),
+            'cmd': CmdCommand(stdout=self.stdout),
+        }
 
-        if setup:
-            self.setup()
-
-    def setup(self):
-        """Set prompt and width"""
-        if not self.prompt:
-            self.prompt = os.environ.get('PS1', self.DEFAULT_PROMPT)
-
-        if not self.width:
-            self.width, _ = get_terminal_size(
-                                fallback=(self.DEFAULT_WIDTH, 24))
-
-    def check_cmd(self, cmd):
-        """Verify the command structure. No Exception, only a message"""
-        if not isinstance(cmd, dict):
-            self.logger.info('Every command must be a dict.')
-            return False
-
-        if 'input' not in cmd:
-            self.logger.info('Wrong command format. No "input" key.')
-            return False
-
-        if not isinstance(cmd['input'], str):
-            self.logger.info('The input value must be a string.')
-            return False
-
-        return True
-
-    def progressbar(self, step=0.2):
-        """Animate a progress bar"""
-        for i in range(self.width-8+1):
-            format_string = '{}{} {:6.2f}%'.format(
-                '#' * i, '.' * (self.width-8-i), 100 * i / (self.width - 8)
-            )
-            self.print_str(format_string, end='\r')
-            sleep(random()*step)
-        self.print_str()
-
-    def print_str(self, mes='', end='\n'):
+    def print_str(self, mes=''):
         """a print function to customiz the stdout"""
-        self.stdout.write(mes+end)
+        self.stdout.write(mes)
         self.stdout.flush()
 
     def print_input(self, command, end='\n'):
         """Animate the input with the prompt."""
-        self.print_str(self.prompt, end='')
+        self.print_str('\n' + self.prompt)
         for char in command + end:
-            sleep(self.wait*random())
-            self.print_str(char, end='')
+            sleep(self.wait*random()/1000)
+            self.print_str(char)
 
-    def print_output(self, command):
-        """Print or animate output"""
-        if 'text' in command:
-            self.print_str(command['text'])
-        elif 'title' in command:
-            figlet = Figlet(
-                width=self.width, font=command.get('font', DEFAULT_FONT),
-                justify=command.get('justify', 'center')
-            )
-            self.print_str(figlet.renderText(command['title']))
-        elif 'progressbar' in command:
-            self.progressbar()
-        elif 'sleep' in command:
-            sleep(command['sleep'])
+    def load(self, data=None, filename=None):
+        if data:
+            self.setup += data
+        if filename:
+            with open(filename) as file:
+                self.setup += json.load(file)
 
     def run(self, clear=True, auto_exit=False):
         """Run everything"""
         if clear:
             os.system('cls' if os.name == 'nt' else 'clear')
 
-        for cmd in self.cmds:
-            if not self.check_cmd(cmd):
-                continue
-
-            self.print_input(cmd['input'])
-
-            if 'output' in cmd:
-                if isinstance(cmd['output'], dict):
-                    self.print_output(cmd['output'])
-                elif isinstance(cmd['output'], list):
-                    for output in cmd['output']:
-                        self.print_output(output)
-            else:
-                os.system(cmd['input'])
+        for item in self.setup:
+            kwargs = item.get('kwargs', {})
+            self.print_input(item.get('cmd', 'run main'))
+            self.cls[item.get('cls', 'txt')].render(**kwargs)
 
         if not auto_exit:
             self.print_input('', end='')
