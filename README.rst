@@ -25,12 +25,14 @@ Virtual environment linux::
 
 Setup project::
 
-  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint pylama
-  pip install -e .
+  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint coverage
+  python setup.py develop
 
 Run some test::
 
   tox
+  coverage run --source lying setup.py test
+  coverage report -m
 
 Create package::
 
