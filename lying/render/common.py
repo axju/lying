@@ -16,17 +16,6 @@ class TextRender(BasicRender):
         self.conf.stdout.write(text)
 
 
-class CmdRender(BasicRender):
-    """docstring for CmdRender."""
-
-    kwargs = {'cmd': str}
-
-    def render(self, **kwargs):
-        """cmd=pwd"""
-        kwargs.get('cmd', 'pwd')
-        # os.system(cmd)
-
-
 class InputRender(BasicRender):
     """docstring for InputRender."""
 
@@ -48,3 +37,15 @@ class InputRender(BasicRender):
         """cmd=ERROR"""
         cmd = kwargs.get('cmd', 'ERROR')
         self._print_input(cmd)
+
+
+class CmdRender(InputRender):
+    """docstring for CmdRender."""
+
+    kwargs = {'cmd': str}
+
+    def render(self, **kwargs):
+        """cmd=pwd"""
+        cmd = kwargs.get('cmd', 'ERROR')
+        self._print_input(cmd)
+        os.system(cmd)

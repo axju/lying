@@ -43,6 +43,8 @@ class Terminal(ClassLogger):
                 self.load(item)
         elif isinstance(data, dict):
             self.clean(data)
+        elif isinstance(data, str):
+            self.instruction.append(('cmd', {'cmd': data}))
         else:
             raise TabError('You can only load a dict or list')
 
