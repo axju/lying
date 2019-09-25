@@ -1,9 +1,18 @@
 from lying.utils.instruction import Instruction
 
-data = {'txt': {'text': 'Hallo'}}
-data = [{'txt': 'asdasd'}, {'cmd': 'asdasd'}, {'txt': 'asdasd'}]
+inst = Instruction({'input': ('cmd', str), 'txt': ('text',str)})
 
-inst = Instruction()
+data = ('txt', {'text': 'Hallo'})
 inst.load(data)
+data = [('txt', {'text': 'Hallo'}), ('txt', {'text': 'Hallo'})]
+inst.load(data)
+data = ('txt', 'Hallo')
+inst.load(data)
+data = [('input', 'test'), ('txt', 'Hallo')]
+inst.load(data)
+data = [('input', 'test'), ('txt', {'text': 'Hallo'})]
+inst.load(data)
+
+
 for item in inst:
     print(item)

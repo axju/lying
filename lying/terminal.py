@@ -4,7 +4,7 @@ import json
 from lying.utils.misc import ClassLogger
 from lying.utils.settings import Settings
 from lying.utils.dispatch import Dispatchers
-
+from lying.utils.instruction import Instruction
 
 class Terminal(ClassLogger):
     """docstring for Terminal."""
@@ -14,7 +14,7 @@ class Terminal(ClassLogger):
         super(Terminal, self).__init__()
         self.dispatchers = Dispatchers()
         self.settings = Settings(**kwargs)
-        self.instruction = []
+        self.instruction = Instruction({name: self.dispatchers[name, 'kwargs'] for name, _ in self.dispatchers})
 
     def clean(self, data):
         for render, kwargs in data.items():

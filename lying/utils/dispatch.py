@@ -16,14 +16,15 @@ class Dispatchers(ClassLogger):
         return ' '.join(['{}={}'.format(key, val) for key, val in self.renders.items()])
 
     def __getitem__(self, key):
-        if isinstance(key, str):
-            return self.renders.get(key)
-        elif isinstance(key, tuple) and len(key) > 1 and isinstance(key[1], str):
-            if key[1] == 'kwargs':
-                return getattr(self.renders.get(key[0]), 'kwargs', {})
-            elif key[1] == 'obj' and len(key) == 3:
-                return self.renders.get(key[0])(key[2])
-        raise KeyError()
+        return self.renders.get(key)
+        #if isinstance(key, str):
+        #    return self.renders.get(key)
+        #elif isinstance(key, tuple) and len(key) > 1 and isinstance(key[1], str):
+        #    if key[1] == 'kwargs':
+        #        return getattr(self.renders.get(key[0]), 'kwargs', {})
+        #    elif key[1] == 'obj' and len(key) == 3:
+        #        return self.renders.get(key[0])(key[2])
+        #raise KeyError()
 
     def __iter__(self):
         for key, value in self.renders.items():
