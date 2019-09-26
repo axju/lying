@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "prompt": "Hello "
+  },
+  "instructions": [
+    ["input", "run main"],
+    ["txt", "[*] start main thread"],
+    ["cmd", "ls"]
+  ]
+}

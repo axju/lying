@@ -16,7 +16,7 @@ class TestCommonRender(unittest.TestCase):
 
     def test_text_render(self):
         output = self.call_render(TextRender, text='foo')
-        self.assertEqual(output, 'foo')
+        self.assertEqual(output, 'foo\n')
 
     def test_cmd_render(self):
         output = self.call_render(CmdRender)

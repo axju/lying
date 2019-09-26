@@ -1,4 +1,4 @@
-"""Some tools"""
+"""The settings for the terminal"""
 import os
 import sys
 from shutil import get_terminal_size
@@ -45,3 +45,7 @@ class Settings(ClassLogger):
         if attr in self.kwargs:
             return self.kwargs.get(attr)
         raise AttributeError
+
+    def load(self, **kwargs):
+        """load some settings"""
+        self.kwargs.update(kwargs)

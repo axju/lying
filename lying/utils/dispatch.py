@@ -17,14 +17,6 @@ class Dispatchers(ClassLogger):
 
     def __getitem__(self, key):
         return self.renders.get(key)
-        #if isinstance(key, str):
-        #    return self.renders.get(key)
-        #elif isinstance(key, tuple) and len(key) > 1 and isinstance(key[1], str):
-        #    if key[1] == 'kwargs':
-        #        return getattr(self.renders.get(key[0]), 'kwargs', {})
-        #    elif key[1] == 'obj' and len(key) == 3:
-        #        return self.renders.get(key[0])(key[2])
-        #raise KeyError()
 
     def __iter__(self):
         for key, value in self.renders.items():
@@ -32,6 +24,15 @@ class Dispatchers(ClassLogger):
 
     def __contains__(self, name):
         return name in self.renders
+
+    def defaults(self):
+        """Return a dictate with the defaults for any render if it exists"""
+        result = {}
+        for key, value in self.renders.items():
+            kwargs = getattr(value, 'kwargs', {})
+            if len(kwargs) == 1:
+                result[key] = tuple(next(iter(kwargs.items())))
+        return result
 
     def load(self):
         """loadthe render from the entry points"""

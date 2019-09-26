@@ -1,5 +1,4 @@
 import unittest
-from logging import Logger
 from lying.utils.instruction import Instruction
 
 
@@ -20,7 +19,6 @@ class TestInstruction(unittest.TestCase):
         inst.load(data)
 
         for name, kwargs in inst:
-            print(name, kwargs)
             self.assertEqual(name, 'test')
             self.assertEqual(kwargs, {'cmd': 'foo'})
 

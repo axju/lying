@@ -13,7 +13,7 @@ class TextRender(BasicRender):
     def render(self, **kwargs):
         """text=ERROR"""
         text = kwargs.get('text', 'ERROR')
-        self.conf.stdout.write(text)
+        self.conf.stdout.write(text+'\n')
 
 
 class InputRender(BasicRender):
