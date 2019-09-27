@@ -2,6 +2,18 @@
 lying - run a fake terminal
 ===========================
 
+.. image:: https://img.shields.io/pypi/v/lying
+   :alt: PyPI
+   :target: https://pypi.org/project/lying/
+
+.. image:: https://img.shields.io/pypi/pyversions/lying
+   :alt: Python Version
+   :target: https://pypi.org/project/lying/
+
+.. image:: https://img.shields.io/pypi/l/lying
+   :alt: License
+   :target: https://pypi.org/project/lying/
+
 .. image:: https://github.com/axju/lying/blob/develop/ext/video.gif
    :alt: alternate text
    :align: right
