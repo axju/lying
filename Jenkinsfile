@@ -18,7 +18,7 @@ pipeline {
         stage('test') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh "nosetests --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=lying --cover-inclusive"
+                    sh "python -m nose --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=lying --cover-inclusive"
                     sh "python -m coverage xml --include=lying*"
                 }
             }

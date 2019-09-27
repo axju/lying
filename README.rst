@@ -78,7 +78,7 @@ Run some test::
   tox
   python -m coverage run --source lying setup.py test
   python -m coverage report -m
-  nosetests --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=lying --cover-inclusive
+  python -m nose --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=lying --cover-inclusive
   python -m coverage xml --include=lying*
 
 Create package::
