@@ -3,8 +3,8 @@ from setuptools import find_packages, setup
 if __name__ == '__main__':
     setup(
         use_scm_version=True,
-        packages=find_packages(exclude=['tests', 'examples', 'ext']),
-        include_package_data=True,
+        packages=['lying'],#find_packages(exclude=['tests', 'examples', 'ext']),
+        #include_package_data=True,
         setup_requires=[
             'setuptools_scm',
         ],
