@@ -1,0 +1,29 @@
+{
+  "settings": {
+    "prompt": ">>> "
+  },
+  "instructions": [
+    ["input", "run main"],
+    ["txt", {"text": "[*] starting the main thread", "end": ""}],
+    ["txt", {"text": ".", "end": ""}],
+    ["wait", 1000],
+    ["txt", {"text": ".", "end": ""}],
+    ["wait", 1000],
+    ["txt", {"text": ".", "end": ""}],
+    ["wait", 1000],
+    ["txt", {"text": " fail", "color": "red"}],
+    ["input", {"cmd": "run wizard", "wait": 300, "random": 0.5}],
+    ["txt-status", "[*] wizard: Abracadabra"],
+    ["txt", "Your wizard has fix the problem. Try it again :)"],
+    ["input", {"cmd": "run main", "wait": 400, "random": 0.5}],
+    ["txt-status", "[*] starting the main thread"],
+    ["txt-status", {"text": "[*] build nothing", "loop": 14, "wait": 200}],
+    ["txt-status", {"text": "[*] just wait for fun", "loop": 10, "wait": 400}],
+    ["txt-status", {"text": "[*] delete system", "result": "fail", "loop": 14, "wait": 150}],
+    ["txt", {"text": "That was a showcase for lying."}],
+    ["wait", 2000],
+    ["txt", {"text": "Thank you for watching.", "color": "blue"}],
+    ["wait", 2000],
+    ["txt", {"text": "Have a nice day :)", "color": "yellow"}]
+  ]
+}
