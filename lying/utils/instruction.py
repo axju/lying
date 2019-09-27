@@ -5,9 +5,9 @@ from lying.utils.misc import ClassLogger
 class Instruction(ClassLogger):
     """docstring for Instruction."""
 
-    def __init__(self, defaults):
+    def __init__(self, chiefs):
         super(Instruction, self).__init__()
-        self.defaults = defaults
+        self.chiefs = chiefs
         self.data = []
 
     def __iter__(self):
@@ -23,8 +23,8 @@ class Instruction(ClassLogger):
         elif isinstance(data, tuple) and len(data) == 2 and isinstance(data[0], str):
             if isinstance(data[1], dict):
                 self.data.append(data)
-            elif data[0] in self.defaults and isinstance(data[1], self.defaults[data[0]][1]):
-                self.data.append((data[0], {self.defaults[data[0]][0]: data[1]}))
+            elif data[0] in self.chiefs and isinstance(data[1], self.chiefs[data[0]][1]):
+                self.data.append((data[0], {self.chiefs[data[0]][0]: data[1]}))
             else:
                 raise TypeError('You can only load a tuple or list')
         else:

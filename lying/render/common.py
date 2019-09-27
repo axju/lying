@@ -1,51 +1,90 @@
 """Some tools"""
 import os
-from time import sleep
-from random import random
 from lying.render.basic import BasicRender
+from lying.render.mixin import OutputMixin, WaitMixin
 
 
-class TextRender(BasicRender):
-    """docstring for TextRender."""
+class WaitRender(WaitMixin, BasicRender):
 
-    kwargs = {'text': str}
+    __kwargs__ = {
+        'wait': (int, 1000),
+        'random': (float, 0.3)
+    }
+    __chief__ = 'wait'
 
     def render(self, **kwargs):
         """text=ERROR"""
-        text = kwargs.get('text', 'ERROR')
-        self.conf.stdout.write(text+'\n')
+        super(WaitRender, self).render(**kwargs)
+        self.wait()
 
 
-class InputRender(BasicRender):
-    """docstring for InputRender."""
+class TextRender(OutputMixin, BasicRender):
+    """docstring for TextRender."""
 
-    kwargs = {'cmd': str}
+    __kwargs__ = {'text': str, 'color': str, 'end': (str, '\n')}
+    __chief__ = 'text'
 
-    def _print_str(self, mes=''):
-        """a print function to customiz the stdout"""
-        self.conf.stdout.write(mes)
-        self.conf.stdout.flush()
+    def render(self, **kwargs):
+        """text=ERROR"""
+        super(TextRender, self).render(**kwargs)
+        self.output.write(self.kwargs.text, color=self.kwargs.color, endl=self.kwargs.end)
 
-    def _print_input(self, command, end='\n'):
-        """Animate the input with the prompt."""
-        self._print_str('\n' + self.conf.prompt)
-        for char in command + end:
-            sleep(self.conf.wait*random()/1000)
-            self._print_str(char)
+
+class TextStatusRender(OutputMixin, WaitMixin, BasicRender):
+    """Render a text, wait and display fail/success"""
+
+    __kwargs__ = {
+        'text': str,
+        'result': (str, 'ok'),
+        'loop': (int, 3),
+        'wait': (int, 1000),
+        'random': (float, 0.3)
+    }
+    __chief__ = 'text'
+
+    def render(self, **kwargs):
+        """Render a text, wait and display fail/success"""
+        super(TextStatusRender, self).render(**kwargs)
+        self.output.write(self.kwargs.text, endl='')
+        for _ in range(self.kwargs.loop):
+            self.wait()
+            self.output.write('.', endl='')
+        if self.kwargs.result == 'ok':
+            self.output.write(' success', color='green')
+        else:
+            self.output.write(' fail', color='red')
+
+
+class InputRender(OutputMixin, WaitMixin, BasicRender):
+    """Render a fake command"""
+
+    __kwargs__ = {
+        'cmd': str,
+        'execute': (bool, True),
+        'wait': (int, 200),
+        'random': (float, 0.5)
+    }
+    __chief__ = 'cmd'
 
     def render(self, **kwargs):
         """cmd=ERROR"""
-        cmd = kwargs.get('cmd', 'ERROR')
-        self._print_input(cmd)
+        super(InputRender, self).render(**kwargs)
+        self.output.write(self.conf.prompt, endl='')
+        for char in self.kwargs.cmd:
+            self.wait()
+            self.output.write(char, endl='')
+
+        if self.kwargs.execute:
+            self.output.write()
 
 
 class CmdRender(InputRender):
     """docstring for CmdRender."""
 
-    kwargs = {'cmd': str}
+    __kwargs__ = {'cmd': str}
 
     def render(self, **kwargs):
         """cmd=pwd"""
-        cmd = kwargs.get('cmd', 'ERROR')
-        self._print_input(cmd)
-        os.system(cmd)
+        kwargs['execute'] = True
+        super(CmdRender, self).render(**kwargs)
+        os.system(self.kwargs.cmd)

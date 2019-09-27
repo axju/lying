@@ -8,12 +8,12 @@ if __name__ == '__main__':
         setup_requires=[
             'setuptools_scm',
         ],
-        install_requires=[
-            'pyfiglet',
-        ],
+        install_requires=[],
         entry_points={
-            'lying.register_cls': [
+            'lying.register': [
+                'wait=lying.render.common:WaitRender',
                 'txt=lying.render.common:TextRender',
+                'txt-status=lying.render.common:TextStatusRender',
                 'cmd=lying.render.common:CmdRender',
                 'input=lying.render.common:InputRender',
             ],

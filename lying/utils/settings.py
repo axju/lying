@@ -23,7 +23,7 @@ class Settings(ClassLogger):
         'prompt': get_prompt(),
         'width': get_width(),
         'stdout': sys.stdout,
-        'wait': 1000,
+        'fast': False,
     }
 
     def __init__(self, **kwargs):

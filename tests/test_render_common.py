@@ -20,11 +20,11 @@ class TestCommonRender(unittest.TestCase):
 
     def test_cmd_render(self):
         output = self.call_render(CmdRender)
-        self.assertEqual(output, '\n>>> ERROR\n')
+        self.assertEqual(output, '>>> \n')
 
     def test_input_render(self):
         output = self.call_render(InputRender)
-        self.assertEqual(output, '\n>>> ERROR\n')
+        self.assertEqual(output, '>>> \n')
 
 
 if __name__ == '__main__':
