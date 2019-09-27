@@ -14,10 +14,6 @@ lying - run a fake terminal
    :alt: License
    :target: https://pypi.org/project/lying/
 
-.. image:: https://img.shields.io/jenkins/build/https/jenkins.short-report.de/job/github-axju/job/lying/job/master
-   :alt: Jenkins
-   :target: https://jenkins.short-report.de/job/github-axju/job/lying/
-
 .. image:: https://github.com/axju/lying/blob/develop/ext/video.gif
    :alt: alternate text
    :align: right
@@ -74,14 +70,16 @@ Virtual environment linux::
 
 Setup project::
 
-  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint coverage rstcheck
+  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint coverage nose rstcheck
   python setup.py develop
 
 Run some test::
 
   tox
-  coverage run --source lying setup.py test
-  coverage report -m
+  python -m coverage run --source lying setup.py test
+  python -m coverage report -m
+  nosetests --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=lying --cover-inclusive
+  python -m coverage xml --include=lying*
 
 Create package::
 
