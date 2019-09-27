@@ -3,7 +3,6 @@ pipeline {
     stages {
         stage('setup') {
             steps {
-                cleanWs()
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh "pip install --user --upgrade pip setuptools wheel coverage nose"
                 }
@@ -27,6 +26,9 @@ pipeline {
                 always {
                     junit 'nosetests.xml'
                     step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage.xml', failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false])
+                }
+                cleanup {
+                    cleanWs()
                 }
             }
         }
