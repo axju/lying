@@ -90,4 +90,4 @@ Publish package::
   python setup.py check
   python setup.py sdist bdist_wheel
   twine upload dist/*
-  git push origin 1.0.0a1
+  git push origin 0.1.1
