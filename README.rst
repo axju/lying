@@ -70,7 +70,7 @@ Virtual environment linux::
 
 Setup project::
 
-  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint coverage
+  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint coverage rstcheck
   python setup.py develop
 
 Run some test::
@@ -83,6 +83,11 @@ Create package::
 
   python setup.py sdist bdist_wheel
 
-Upload package::
+Publish package::
 
+  rstcheck README.rst
+  python setup.py --version
+  python setup.py check
+  python setup.py sdist bdist_wheel
   twine upload dist/*
+  git push origin 1.0.0a1
