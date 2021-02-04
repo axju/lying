@@ -14,13 +14,13 @@ lying - run a fake terminal
    :alt: License
    :target: https://pypi.org/project/lying/
 
-.. image:: https://img.shields.io/jenkins/build/https/jenkins.short-report.de/job/github-axju/job/lying/job/master
+.. image:: https://img.shields.io/jenkins/build/https/jenkins.axju.de/job/axju/job/lying/job/master
    :alt: Jenkins
-   :target: https://jenkins.short-report.de/job/github-axju/job/lying/
+   :target: https://jenkins.axju.de/job/axju/job/lying/
 
-.. image:: https://img.shields.io/jenkins/coverage/cobertura/https/jenkins.short-report.de/job/github-axju/job/lying/job/master
+.. image:: https://img.shields.io/jenkins/coverage/cobertura/https/jenkins.axju.de/job/axju/job/lying/job/master
    :alt: Jenkins Coverage
-   :target: https://jenkins.short-report.de/job/github-axju/job/lying/
+   :target: https://jenkins.axju.de/job/axju/job/lying/
 
 .. image:: https://github.com/axju/lying/blob/develop/ext/video.gif
    :alt: alternate text
