@@ -4,7 +4,25 @@ pipeline {
         stage('setup') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh "pip install --user --upgrade pip setuptools wheel coverage nose"
+                    sh "pip install --user --upgrade pip"
+                    sh "pip install --user ."
+                }
+            }
+        }
+        stage('pytest') {
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh "pip install --user --upgrade coverage pytest"
+                    sh "python -m coverage run --branch --source lying -m pytest --junitxml junittest-coverage.xml"
+                    sh "python -m coverage xml"
+                }
+            }
+        }
+        stage('pylint') {
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh "python -m pip install pylint pylint_junit"
+                    sh "python -m pylint --rcfile=setup.cfg --output-format=pylint_junit.JUnitReporter lying | tee junittest-pylint.xml"
                 }
             }
         }
@@ -15,19 +33,10 @@ pipeline {
                 }
             }
         }
-        stage('test') {
-            steps {
-                withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh "python -m nose --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=lying --cover-inclusive"
-                    sh "python -m coverage xml --include=lying*"
-                }
-            }
-
-        }
     }
     post {
         always {
-            junit 'nosetests.xml'
+            junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: 'junittest*.xml'
             step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage.xml', failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false])
         }
         cleanup {

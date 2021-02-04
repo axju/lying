@@ -78,16 +78,14 @@ Virtual environment linux::
 
 Setup project::
 
-  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint coverage nose rstcheck
-  python setup.py develop
+  python -m pip install --upgrade pip wheel setuptools twine tox flake8 pylint coverage pytest rstcheck
+  python -m pip install -e .
 
 Run some test::
 
   tox
-  python -m coverage run --source lying setup.py test
+  python -m coverage run --source lying -m pytest
   python -m coverage report -m
-  python -m nose --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=lying --cover-inclusive
-  python -m coverage xml --include=lying*
 
 Create package::
 
