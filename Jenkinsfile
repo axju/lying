@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'python:3.7.2' } }
+    agent { docker { image 'python:3.8' } }
     stages {
         stage('setup') {
             steps {
@@ -22,15 +22,16 @@ pipeline {
                     sh "python -m coverage xml --include=lying*"
                 }
             }
-            post {
-                always {
-                    junit 'nosetests.xml'
-                    step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage.xml', failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false])
-                }
-                cleanup {
-                    cleanWs()
-                }
-            }
+
+        }
+    }
+    post {
+        always {
+            junit 'nosetests.xml'
+            step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage.xml', failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false])
+        }
+        cleanup {
+            cleanWs()
         }
     }
 }
